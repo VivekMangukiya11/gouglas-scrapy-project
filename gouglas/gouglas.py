@@ -27,14 +27,14 @@ def get_ean(page_id):
         Includes = json.loads(requests.get(url).text)['BatchedResults'][item]['Includes']
         if 'Products' in Includes:
             if page_id in Includes['Products']:
-                for EANs in Includes['Products'][page_id]['EANs']:
-                    en.append(EANs)
+                for eans in Includes['Products'][page_id]['EANs']:
+                    en.append(eans)
         else:
             Results = json.loads(requests.get(url).text)['BatchedResults'][item]['Results']
             if Results != []:
                 for res in Results:
-                    for EANs in res['EANs']:
-                        en.append(EANs)
+                    for eans in res['EANs']:
+                        en.append(eans)
 
     return ",".join(list(set(en)))
         
