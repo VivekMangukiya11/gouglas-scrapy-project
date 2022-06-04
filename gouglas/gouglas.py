@@ -20,14 +20,14 @@ def create_table(conn,cur):
 def get_ean(page_id):
 
     url = f"https://api.bazaarvoice.com/data/batch.json?passkey=caOo5Zf8xcf0uisM6mgWyAGVCeCntx4AqPZ4XuHhgsCEw&apiversion=5.5&displaycode=15804_3_0-de_de&resource.q0=products&filter.q0=id:eq:{page_id}&stats.q0=reviews&filteredstats.q0=reviews&filter_reviews.q0=contentlocale:eq:de*,de_DE&filter_reviewcomments.q0=contentlocale:eq:de*,de_DE&resource.q1=reviews&filter.q1=isratingsonly:eq:false&filter.q1=productid:eq:{page_id}&filter.q1=contentlocale:eq:de*,de_DE&sort.q1=submissiontime:desc&stats.q1=reviews&filteredstats.q1=reviews&include.q1=authors,products,comments&filter_reviews.q1=contentlocale:eq:de*,de_DE&filter_reviewcomments.q1=contentlocale:eq:de*,de_DE&filter_comments.q1=contentlocale:eq:de*,de_DE&limit.q1=4&offset.q1=0&limit_comments.q1=3&callback"
-    Includes = json.loads(requests.get(url).text)['BatchedResults']['q1']['Includes']
+    includes = json.loads(requests.get(url).text)['BatchedResults']['q1']['Includes']
     
     en = []
     for item in json.loads(requests.get(url).text)['BatchedResults']:
-        Includes = json.loads(requests.get(url).text)['BatchedResults'][item]['Includes']
-        if 'Products' in Includes:
-            if page_id in Includes['Products']:
-                for eans in Includes['Products'][page_id]['EANs']:
+        includes = json.loads(requests.get(url).text)['BatchedResults'][item]['Includes']
+        if 'Products' in includes:
+            if page_id in includes['Products']:
+                for eans in includes['Products'][page_id]['EANs']:
                     en.append(eans)
         else:
             Results = json.loads(requests.get(url).text)['BatchedResults'][item]['Results']
